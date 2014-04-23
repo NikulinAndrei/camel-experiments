@@ -1,8 +1,10 @@
 package ee.kemit.cameltest;
 
-import org.apache.camel.LoggingLevel;
+
 import org.apache.camel.builder.RouteBuilder;
 import org.springframework.stereotype.Component;
+
+import static org.apache.camel.LoggingLevel.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -12,39 +14,36 @@ import org.springframework.stereotype.Component;
 @Component
 class Eelis2ForestRouteBuilder extends RouteBuilder{
 
-  private static final String STEP_1_ROUTE = "direct:START_CLEANUP" +
-      "UP";
-  private static final String STEP_2_ROUTE = "direct:START_COPY_DATA";
+  private static final String STEP_2_ROUTE = "direct:QUERY_EELIS";
+  private static final String STEP_3_ROUTE = "direct:INSERT_2FOREST";
 
 
   @Override
   public void configure() throws Exception {
     from("quartz2:EELIS_2_FOREST?cron=0+*+*+*+*+?").
-        log(LoggingLevel.INFO, "STARTING").
-        to(STEP_1_ROUTE);
-
-    //STEP1: CLEANUP target DB
-    from(STEP_1_ROUTE).
+        log(INFO, "STARTING").
         transacted().
         to("targetSql:delete from EELIS_DATA").
-        log(LoggingLevel.INFO, "Delete executed ${header.CamelSqlUpdateCount}").
+        log(INFO, "Delete executed ${header.CamelSqlUpdateCount}").
         to(STEP_2_ROUTE);
 
     // STEP2: query from Eelis and insert to Target
     from(STEP_2_ROUTE).
-        onCompletion().
-          log(LoggingLevel.INFO, "Done").end().
         to("eelisSql:{{sql.queryEelis}}").
-        log(LoggingLevel.INFO, "Eelis query returned  ${header.CamelSqlRowCount}").
+        log(INFO, "Eelis query returned  ${header.CamelSqlRowCount}").
+        to(STEP_3_ROUTE);
 
+    // STEP2: insert to Forest
+    from(STEP_3_ROUTE).
+        onCompletion().
+        log(INFO, "DONE").end().
         transacted().
-        log(LoggingLevel.INFO, "Inserting to Forest").
+        log(DEBUG, "Inserting to Forest ${header.CamelSqlRowCount}").
         split(body()).
           stopOnException().
           convertBodyTo(SpatialData.class).
-          log(LoggingLevel.DEBUG, "Split map ${body}").
+          log(DEBUG, "Split map ${body}").
           to("forestDAO");
-
 
   }
 }
