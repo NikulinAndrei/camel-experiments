@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:camel="http://camel.apache.org/schema/spring"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
+
+
+    <bean id="eelisSql" class="org.apache.camel.component.sql.SqlComponent">
+        <property name="dataSource" ref="eelisDS"/>
+    </bean>
+
+    <bean id="targetSql" class="org.apache.camel.component.sql.SqlComponent">
+        <property name="dataSource" ref="forestDS"/>
+    </bean>
+
+    <bean id="required" class="org.apache.camel.spring.spi.SpringTransactionPolicy">
+        <property name="transactionManager" ref="txManager"/>
+        <property name="propagationBehaviorName" value="PROPAGATION_REQUIRED"/>
+    </bean>
+
+    <bean id="eelis2ForestRouteBuilder" class="ee.kemit.cameltest.Eelis2ForestRouteBuilder"/>
+
+    <!-- Camel route setup -->
+    <camel:camelContext xmlns="http://camel.apache.org/schema/spring">
+        <propertyPlaceholder id="propertyPlaceholder" location="classpath:sql.properties"/>
+
+        <contextScan/>
+    </camel:camelContext>
+
+</beans>
