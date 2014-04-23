@@ -1,7 +1,6 @@
 package ee.kemit.cameltest;
 
-import org.apache.camel.Exchange;
-import org.apache.camel.Processor;
+import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
 import org.springframework.stereotype.Component;
 
@@ -21,12 +20,22 @@ class Eelis2ForestRouteBuilder extends RouteBuilder{
     from("timer://timer1?period=6000s").
         transacted().
         to("targetSql:delete from EELIS_DATA").
+        log(LoggingLevel.INFO, "Delete executed ${header.CamelSqlUpdateCount}").
         to(STEP_2_ROUTE);
 
     // STEP2: query from Eelis and insert to Target
     from(STEP_2_ROUTE).
-        to( "eelisSql:{{sql.queryEelis}}" ).
+        to("eelisSql:{{sql.queryEelis}}").
+        log(LoggingLevel.INFO, "Eelis query returned  ${header.CamelSqlRowCount}").
+
         transacted().
-        to("save2ForestService");
+        log(LoggingLevel.INFO, "Inserting to Forest").
+        split(body()).
+          stopOnException().
+          convertBodyTo(SpatialData.class).
+          log(LoggingLevel.DEBUG, "Split map ${body}").
+          to("forestDAO");
+
+
   }
 }

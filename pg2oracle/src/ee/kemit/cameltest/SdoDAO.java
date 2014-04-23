@@ -19,7 +19,7 @@ import java.sql.Struct;
  * Date: 22.04.14
  */
 @Repository( "forestDAO" )
-class SdoDAO {
+public class SdoDAO {
   private JdbcTemplate tmpl;
 
   @Autowired
@@ -27,18 +27,18 @@ class SdoDAO {
     tmpl = new JdbcTemplate(forestDS);
   }
 
-  public void insert( final long id, final String name, final String wktGeom ){
+  public void insert( final SpatialData data ){
     tmpl.update(
         "INSERT INTO EELIS_DATA(ID, NAME, GEOLOC)  VALUES( ?, ?, ? )",
         new PreparedStatementSetter() {
           @Override
           public void setValues(PreparedStatement preparedStatement) throws SQLException {
             try {
-              JGeometry dbObj = new WKT().toJGeometry(wktGeom.getBytes());
+              JGeometry dbObj = new WKT().toJGeometry(data.wktGeom.getBytes());
               Struct oraStruct = JGeometry.store(preparedStatement.getConnection(), dbObj);
 
-              preparedStatement.setLong(1, id);
-              preparedStatement.setString(2, name);
+              preparedStatement.setLong(1, data.id);
+              preparedStatement.setString(2, data.name);
               preparedStatement.setObject(3, oraStruct);
             } catch (Exception e) {
               throw new SQLException("Error",e) ;
