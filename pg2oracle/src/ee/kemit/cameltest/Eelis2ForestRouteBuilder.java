@@ -12,12 +12,19 @@ import org.springframework.stereotype.Component;
 @Component
 class Eelis2ForestRouteBuilder extends RouteBuilder{
 
-  private static final String STEP_2_ROUTE = "direct:CLEANUP_FINISHED";
+  private static final String STEP_1_ROUTE = "direct:START_CLEANUP" +
+      "UP";
+  private static final String STEP_2_ROUTE = "direct:START_COPY_DATA";
+
 
   @Override
   public void configure() throws Exception {
+    from("quartz2:EELIS_2_FOREST?cron=0+*+*+*+*+?").
+        log(LoggingLevel.INFO, "STARTING").
+        to(STEP_1_ROUTE);
+
     //STEP1: CLEANUP target DB
-    from("timer://timer1?period=6000s").
+    from(STEP_1_ROUTE).
         transacted().
         to("targetSql:delete from EELIS_DATA").
         log(LoggingLevel.INFO, "Delete executed ${header.CamelSqlUpdateCount}").
@@ -25,6 +32,8 @@ class Eelis2ForestRouteBuilder extends RouteBuilder{
 
     // STEP2: query from Eelis and insert to Target
     from(STEP_2_ROUTE).
+        onCompletion().
+          log(LoggingLevel.INFO, "Done").end().
         to("eelisSql:{{sql.queryEelis}}").
         log(LoggingLevel.INFO, "Eelis query returned  ${header.CamelSqlRowCount}").
 

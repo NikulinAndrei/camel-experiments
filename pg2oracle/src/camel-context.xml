@@ -27,7 +27,6 @@
     <camel:camelContext xmlns="http://camel.apache.org/schema/spring">
         <propertyPlaceholder id="propertyPlaceholder" location="classpath:sql.properties"/>
         <contextScan/>
-
     </camel:camelContext>
 
 </beans>

@@ -22,7 +22,7 @@
     <!--<logger name="org.springframework" level="DEBUG"/>-->
 
     <root level="INFO">
-        <appender-ref ref="ED"/>
+        <!--appender-ref ref="ED"/-->
         <appender-ref ref="STDOUT"/>
     </root>
 

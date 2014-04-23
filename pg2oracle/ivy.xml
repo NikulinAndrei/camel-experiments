@@ -6,10 +6,9 @@
 
     <dependencies defaultconf="default">
         <dependency org="org.apache.camel" name="camel-core" rev="2.13.0"/>
-        <dependency org="org.apache.camel" name="camel-stream" rev="2.13.0"/>
-        <dependency org="org.apache.camel" name="camel-jdbc" rev="2.13.0"/>
         <dependency org="org.apache.camel" name="camel-spring" rev="2.13.0"/>
         <dependency org="org.apache.camel" name="camel-sql" rev="2.13.0"/>
+        <dependency org="org.apache.camel" name="camel-quartz2" rev="2.13.0"/>
 
         <dependency org="org.slf4j" name="slf4j-api" rev="1.7.7"/>
         <dependency org="org.slf4j" name="jcl-over-slf4j" rev="1.7.7"/>
@@ -17,6 +16,8 @@
         <dependency org="ch.qos.logback" name="logback-core" rev="1.0.6"/>
 
         <dependency org="postgresql" name="postgresql" rev="9.1-901.jdbc4"/>
+        <dependency org="org.quartz-scheduler" name="quartz" rev="2.2.1"/>
+
 
 
         <!--Spring framework -->
