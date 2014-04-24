@@ -2,6 +2,7 @@ package ee.kemit.cameltest;
 
 
 import org.apache.camel.builder.RouteBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import static org.apache.camel.LoggingLevel.*;
@@ -13,6 +14,7 @@ import static org.apache.camel.LoggingLevel.*;
  */
 @Component
 class Eelis2ForestRouteBuilder extends RouteBuilder{
+  @Autowired SdoDAO sdoDAO;
 
   private static final String STEP_2_ROUTE = "direct:QUERY_EELIS";
   private static final String STEP_3_ROUTE = "direct:INSERT_2FOREST";
@@ -43,7 +45,7 @@ class Eelis2ForestRouteBuilder extends RouteBuilder{
           stopOnException().
           convertBodyTo(SpatialData.class).
           log(DEBUG, "Split map ${body}").
-          to("forestDAO");
+          bean(sdoDAO, "insert");
 
   }
 }
