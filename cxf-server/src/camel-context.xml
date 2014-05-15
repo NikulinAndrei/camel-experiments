@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:camel="http://camel.apache.org/schema/spring"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:cxf="http://camel.apache.org/schema/cxf"
+       xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd
+		http://camel.apache.org/schema/cxf
+		http://camel.apache.org/schema/cxf/camel-cxf.xsd">
+
+    <!-- Camel route setup -->
+    <camel:camelContext xmlns="http://camel.apache.org/schema/spring">
+        <contextScan/>
+    </camel:camelContext>
+
+    <import resource="classpath:META-INF/cxf/cxf.xml"/>
+    <import resource="classpath:META-INF/cxf/cxf-extension-soap.xml"/>
+    <import resource="classpath:META-INF/cxf/cxf-extension-http-jetty.xml"/>
+
+    <cxf:cxfEndpoint
+            id="orderEndpoint"
+            address="http://localhost:9000/order/"
+            serviceClass="ee.anikulin.cameltest.orderservice.OrderEndpoint"/>
+
+</beans>

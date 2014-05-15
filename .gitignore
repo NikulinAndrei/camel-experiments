@@ -5,3 +5,4 @@
 
 settings.properties
 out/
+build_temp/

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="5 seconds">
+
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%-5level %date{HH:mm:ss.SSS} [%mdc{user}] %logger{26} - %msg %n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="ED" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <encoder>
+            <pattern>%-5level %date{HH:mm:ss}  %logger{26} - %msg %n</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>app.%d{yyyy-MM-dd}.log</FileNamePattern>
+            <MaxHistory>180</MaxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <logger name="ee" level="DEBUG"/>
+    <!--<logger name="org.springframework" level="DEBUG"/>-->
+
+    <root level="INFO">
+        <!--appender-ref ref="ED"/-->
+        <appender-ref ref="STDOUT"/>
+    </root>
+
+</configuration>

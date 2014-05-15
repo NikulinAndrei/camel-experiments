@@ -1,0 +1,63 @@
+<ivy-module version="2.0">
+    <info organisation="ee.kemit" module="cameltest"/>
+    <configurations>
+        <conf name="default" transitive="false"/>
+    </configurations>
+
+    <dependencies defaultconf="default">
+
+        <dependency org="org.apache.camel" name="camel-core" rev="2.13.0"/>
+        <dependency org="org.apache.camel" name="camel-spring" rev="2.13.0"/>
+        <dependency org="org.apache.camel" name="camel-cxf" rev="2.13.0"/>
+        <dependency org="org.apache.camel" name="camel-cxf-transport" rev="2.13.0"/>
+
+        <dependency org="org.eclipse.jetty" name="jetty-server" rev="8.1.14.v20131031"/>
+        <dependency org="org.eclipse.jetty" name="jetty-util" rev="8.1.14.v20131031"/>
+        <dependency org="org.eclipse.jetty" name="jetty-jmx" rev="8.1.14.v20131031"/>
+        <dependency org="org.eclipse.jetty" name="jetty-io" rev="8.1.14.v20131031"/>
+        <dependency org="org.eclipse.jetty" name="jetty-http" rev="8.1.14.v20131031"/>
+        <dependency org="org.eclipse.jetty" name="jetty-continuation" rev="8.1.14.v20131031"/>
+        <dependency org="org.apache.geronimo.specs" name="geronimo-servlet_3.0_spec" rev="1.0"/>
+
+
+
+        <dependency org="org.apache.cxf" name="cxf-bundle" rev="2.7.11" />
+
+        <dependency org="org.apache.velocity" name="velocity" rev="1.7" />
+        <dependency org="commons-collections" name="commons-collections" rev="3.2.1" />
+        <dependency org="commons-lang" name="commons-lang" rev="2.6" />
+        <dependency org="wsdl4j" name="wsdl4j" rev="1.6.3" />
+        <dependency org="org.apache.ws.security" name="wss4j" rev="1.6.15" />
+        <dependency org="javax.xml.bind" name="jaxb-api" rev="2.2.6" />
+        <dependency org="com.sun.xml.bind" name="jaxb-impl" rev="2.2.6" />
+        <dependency org="com.sun.xml.bind" name="jaxb-xjc" rev="2.2.6"/>
+        <dependency org="org.apache.ws.xmlschema" name="xmlschema-core" rev="2.1.0" />
+        <dependency org="org.apache.neethi" name="neethi" rev="3.0.3" />
+        <dependency org="org.codehaus.woodstox" name="woodstox-core-asl" rev="4.2.1" />
+        <dependency org="org.apache.santuario" name="xmlsec" rev="1.5.6" />
+        <dependency org="org.codehaus.woodstox" name="stax2-api" rev="3.1.4" />
+
+
+        <dependency org="org.slf4j" name="slf4j-api" rev="1.7.7"/>
+        <dependency org="org.slf4j" name="jcl-over-slf4j" rev="1.7.7"/>
+        <dependency org="ch.qos.logback" name="logback-classic" rev="1.0.6"/>
+        <dependency org="ch.qos.logback" name="logback-core" rev="1.0.6"/>
+
+        <dependency org="junit" name="junit" rev="4.8.2"/>
+
+
+        <!--Spring framework -->
+        <dependency org="org.springframework" name="spring-aop" rev="4.0.3.RELEASE"/>
+        <dependency org="org.springframework" name="spring-aspects" rev="4.0.3.RELEASE"/>
+        <dependency org="org.springframework" name="spring-beans" rev="4.0.3.RELEASE"/>
+        <dependency org="org.springframework" name="spring-context" rev="4.0.3.RELEASE"/>
+        <dependency org="org.springframework" name="spring-context-support" rev="4.0.3.RELEASE"/>
+        <dependency org="org.springframework" name="spring-core" rev="4.0.3.RELEASE"/>
+        <dependency org="org.springframework" name="spring-expression" rev="4.0.3.RELEASE"/>
+
+        <dependency org="aopalliance" name="aopalliance" rev="1.0"/>
+
+
+    </dependencies>
+
+</ivy-module>

@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<project name="cxf server" basedir="."  xmlns:ivy="antlib:org.apache.ivy.ant">
+
+    <ivy:configure />
+
+    <property name="tmp.dir" value="${basedir}/build_temp"/>
+    <property name="tmp.classes.dir" value="${tmp.dir}/classestemp"/>
+    <property name="out.dir" value="${tmp.dir}/build_out"/>
+    <property name="lib.dir" value="${tmp.dir}/lib"/>
+
+    <path id="classpath">
+        <fileset dir="${lib.dir}">
+            <include name="*.jar"/>
+        </fileset>
+    </path>
+
+    <target name="prepare">
+        <delete dir="${tmp.dir}" failonerror="true" taskname="Delete ${tmp.dir} catalog"/>
+
+        <mkdir dir="${tmp.dir}" taskname="Create ${tmp.dir} catalog"/>
+        <mkdir dir="${lib.dir}" taskname="Create ${lib.dir} catalog"/>
+        <mkdir dir="${tmp.classes.dir}" taskname="Create ${tmp.classes.dir} catalog"/>
+        <mkdir dir="${out.dir}" taskname="Create ${out.dir} catalog"/>
+    </target>
+
+    <target name="ivy" depends="prepare">
+        <ivy:retrieve conf="default" pattern="${lib.dir}/[artifact]-[revision].[ext]"/>
+    </target>
+
+    <target name="cxfWSDLToJava" depends="prepare, ivy">
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-impl"/>
+            <arg value="-d"/>
+            <arg value="src"/>
+            <arg value="src/orderEndpoint.wsdl"/>
+            <classpath>
+                <path refid="classpath"/>
+            </classpath>
+        </java>
+    </target>
+</project>
